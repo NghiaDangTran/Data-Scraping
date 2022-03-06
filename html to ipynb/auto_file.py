@@ -26,7 +26,6 @@ count = 0
 curr1 = 0
 curr2 = 0
 
-
 while count < len(data):
 
     if "In" in data[count] and "[" in data[count] and "]" in data[count]:
@@ -39,14 +38,13 @@ while count < len(data):
             count += 1
         curr1 = count
 
-        while data[count] != "\n":
+        while data[count] != "\n" or data[count+1] != "\n"or data[count+2] != "\n":
             count += 1
         curr2 = count
-        for i in range(curr1, curr2-1):
-            if re.match(r'\s', data[i]):
-                data[i] = data[i][4:]
+        for i in range(curr1, curr2):
+
             data[i] = "#"+data[i]
-        data.pop(curr2-1)
+        data.pop(curr2)
         data[curr2] = '## %% [markdown]\n'
 
     elif data[count] == '\n':
@@ -56,10 +54,13 @@ while count < len(data):
         count += 1
 
 
-print(data)
+
 file = codecs.open("File_PY.py", "w+", "utf-8")
 file.writelines("\n# %% [markdown]\n")
+
+
 for line in data:
+    # file.write(line)
     if line[0] == "#":
         file.write(line[1:])
 
